@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="BerichtXML" format="xml">
+      <types:example format="xml" element="Bericht" location="examples/berichtxml.xml"/>
+    </types:type>
+    <types:type name="BerichtJSON" format="json">
+      <types:shape format="weave" example="examples/berichtjson.json"><![CDATA[%dw 2.0
+
+type BerichtJSON = {|
+  tijd: Number {"typeId": "int"}, 
+  aankomsttijd: Number {"typeId": "int"}, 
+  lijnNaam: String, 
+  busID: String, 
+  bedrijf: String, 
+  eindpunt: String
+|} {"example": "{\\\"tijd\\\":15,\\\"aankomsttijd\\\":32,\\\"lijnNaam\\\":\\\"LIJN1\\\",\\\"busID\\\":\\\"3LIJN1R-1\\\",\\\"bedrijf\\\":\\\"ARRIVA\\\",\\\"eindpunt\\\":\\\"A\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#63902ac1-1d5d-460e-90a0-33dff45d426a">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="BerichtXML"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#b05c7c22-89d2-49f6-a077-61d1c648ee63">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="BerichtJSON"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

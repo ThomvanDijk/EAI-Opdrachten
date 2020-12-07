@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<jms:config name="JMS_Config" doc:name="JMS Config" doc:id="d07e01a3-a6c5-4f4a-b73f-ef635fcc8a1c" >
+		<jms:active-mq-connection >
+			<jms:factory-configuration brokerUrl="tcp://localhost:61616" />
+		</jms:active-mq-connection>
+	</jms:config>
+	<flow name="bussimulatorFlow" doc:id="f17189b3-63a3-491c-bf46-f0649e640a49" >
+		<jms:listener doc:name="On New Message" doc:id="63902ac1-1d5d-460e-90a0-33dff45d426a" destination="BUSQUEUE" config-ref="JMS_Config" inboundContentType="application/xml">
+		</jms:listener>
+		<ee:transform doc:name="Transform Message" doc:id="232dd6c2-be46-48d6-88e5-c0776542e66d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	tijd: payload.Bericht.tijd,
+	aankomsttijd: payload.Bericht.ETAs.*ETA.aankomsttijd default 0,
+	lijnNaam: payload.Bericht.lijnNaam,
+	busID: payload.Bericht.busID,
+	bedrijf: payload.Bericht.bedrijf,
+	eindpunt: payload.Bericht.eindpunt
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<jms:publish doc:name="Publish" doc:id="b05c7c22-89d2-49f6-a077-61d1c648ee63" config-ref="JMS_Config" destination="INFOBORDQUEUE"/>
+	</flow>
+</mule>
