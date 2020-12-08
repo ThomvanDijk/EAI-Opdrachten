@@ -83,6 +83,12 @@
             <artifactId>activemq-kahadb-store</artifactId>
             <version>5.15.4</version>
         </dependency>
+    	<dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-soapkit-module</artifactId>
+            <version>1.2.7</version>
+            <classifier>mule-plugin</classifier>
+        </dependency>
     </dependencies>
 
 	<repositories>
