@@ -28,6 +28,7 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="51d15418-3dcb-4541-aea0-7c3062d810cc" message="#[payload]"/>
 		<jms:publish doc:name="Publish" doc:id="b05c7c22-89d2-49f6-a077-61d1c648ee63" config-ref="JMS_Config" destination="INFOBORDQUEUE"/>
 	</flow>
 </mule>
