@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/apikit-soap http://www.mulesoft.org/schema/m
 		</jms:active-mq-connection>
 	</jms:config>
 	<flow name="bussimulatorFlow" doc:id="f17189b3-63a3-491c-bf46-f0649e640a49" >
-		<jms:listener doc:name="On New Message" doc:id="63902ac1-1d5d-460e-90a0-33dff45d426a" destination="BUSQUEUE" config-ref="JMS_Config" inboundContentType="application/xml">
+		<jms:listener doc:name="On New Message" doc:id="63902ac1-1d5d-460e-90a0-33dff45d426a" destination="BUSQUEUE" config-ref="JMS_Config" inboundContentType="application/xml" ackMode="AUTO">
 		</jms:listener>
 		<foreach doc:name="For Each" doc:id="b153c22a-098f-4db4-a0b3-586cd2045b2a" collection="#[payload.Bericht.ETAs]">
 			<ee:transform doc:name="Transform Message" doc:id="232dd6c2-be46-48d6-88e5-c0776542e66d">
@@ -30,9 +30,11 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-			<logger level="INFO" doc:name="Logger" doc:id="51d15418-3dcb-4541-aea0-7c3062d810cc" message="#[payload.aankomsttijd]" />
-			<jms:publish doc:name="Publish" doc:id="b05c7c22-89d2-49f6-a077-61d1c648ee63" config-ref="JMS_Config" destination='#["IB:" ++ vars.rootMessage.payload.Bericht.ETAs.ETA.halteNaam ++ ":" ++ 
+			<logger level="INFO" doc:name="Logger" doc:id="51d15418-3dcb-4541-aea0-7c3062d810cc" message='#["IB:" ++ vars.rootMessage.payload.Bericht.ETAs.ETA.halteNaam ++ ":" ++ 
 vars.rootMessage.payload.Bericht.ETAs.ETA.richting as String]' />
+			<logger level="INFO" doc:name="Logger" doc:id="cb02d62a-ccb8-46b0-9f12-60863cc894c6" message="#[payload]"/>
+			<jms:publish doc:name="Publish" doc:id="b05c7c22-89d2-49f6-a077-61d1c648ee63" config-ref="JMS_Config" destination='#["IB:" ++ vars.rootMessage.payload.Bericht.ETAs[vars.counter - 1].halteNaam ++ ":" ++ 
+vars.rootMessage.payload.Bericht.ETAs[vars.counter - 1].richting as String]' />
 		</foreach>
 	</flow>
 </mule>
