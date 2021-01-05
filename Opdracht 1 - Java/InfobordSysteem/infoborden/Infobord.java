@@ -32,10 +32,11 @@ public class Infobord extends Application {
 	public void verwerkBericht() {
 		if (berichten.hetBordMoetVerverst()) {
 			String[] infoTekstRegels = berichten.repaintInfoBordValues();
-//			Deze code hoort bij opdracht 3
-			InfobordTijdFuncties tijdfuncties = new InfobordTijdFuncties();
-			String tijd = tijdfuncties.getCentralTime().toString();
-			tijdRegel.setText(tijd);
+//			InfobordTijdFuncties tijdfuncties = new InfobordTijdFuncties();
+//			
+//			String tijd = tijdfuncties.getCentralTime().toString();
+//			tijdRegel.setText(tijd);
+			
 			infoRegel1.setText(infoTekstRegels[0]);
 			infoRegel2.setText(infoTekstRegels[1]);
 			infoRegel3.setText(infoTekstRegels[2]);
@@ -75,6 +76,7 @@ public class Infobord extends Application {
 		pane.add(infoRegel3, 1, 3);
 		pane.add(new Label("4:"), 0, 4);
 		pane.add(infoRegel4, 1, 4);
+		
 		// Create a scene and place it in the stage
 		Scene scene = new Scene(pane, 500, 150);
 		primaryStage.setTitle(titel); // Set the stage title
