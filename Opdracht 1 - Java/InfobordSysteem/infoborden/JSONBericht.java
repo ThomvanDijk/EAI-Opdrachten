@@ -1,5 +1,6 @@
 package infoborden;
 
+import bussimulator.Bericht;
 import tijdtools.InfobordTijdFuncties;
 
 public class JSONBericht {
@@ -10,13 +11,13 @@ public class JSONBericht {
 	private String bedrijf;
 	private String eindpunt;
 
-	public JSONBericht(int tijd, int aankomsttijd, String lijnNaam, String busID, String bedrijf, String eindpunt) {
+	public JSONBericht(Bericht bericht, int aankomsttijd, String eindpunt) {
 		super();
-		this.tijd = tijd;
+		this.tijd = bericht.getTijd();
 		this.aankomsttijd = aankomsttijd;
-		this.lijnNaam = lijnNaam;
-		this.busID = busID;
-		this.bedrijf = bedrijf;
+		this.lijnNaam = bericht.getLijnNaam();
+		this.busID = bericht.getBusID();
+		this.bedrijf = bericht.getBedrijf();
 		this.eindpunt = eindpunt;
 	}
 

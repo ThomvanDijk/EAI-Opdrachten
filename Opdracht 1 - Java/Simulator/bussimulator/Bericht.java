@@ -19,4 +19,20 @@ public class Bericht {
 		this.ETAs=new ArrayList<ETA>();
 	}
 
+	public int getTijd() {
+		return tijd;
+	}
+
+	public String getLijnNaam() {
+		return lijnNaam;
+	}
+
+	public String getBusID() {
+		return busID;
+	}
+
+	public String getBedrijf() {
+		return bedrijf;
+	}
+
 }
